@@ -26,7 +26,7 @@ namespace RPATest.Steps
         public void ThenIEnterSubProjectNameAndTest(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            CurrentPage.As<ProjectPage>().CreateProject(data.ProjectName);
+            CurrentPage.As<ProjectPage>().CreateSubProject(data.SubProjectName);
         }
         
         [Then(@"click OkButton button")]
@@ -38,13 +38,13 @@ namespace RPATest.Steps
         [Then(@"I select last element in ProjectList")]
         public void ThenISelectLastElementInProjectList()
         {
-           CurrentPage.As<ProjectPage>().selectLastElement();
+           CurrentPage.As<ProjectPage>().selectLastElementProject();
         }
 
         [Then(@"I select last element in SubProjectList")]
         public void ThenISelectLastElementInSubProjectList()
         {
-            ScenarioContext.Current.Pending();
+            CurrentPage.As<ProjectPage>().selectElementSubProject();
         }
 
 

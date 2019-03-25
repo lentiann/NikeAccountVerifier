@@ -47,16 +47,22 @@ namespace RPATest.Steps
         {
             if (buttonName == "login")
                 CurrentPage = CurrentPage.As<LoginPage>().ClickLoginButton();
-            //else if (buttonName == "createnew")
-            //    CurrentPage = CurrentPage.As<EmployeeListPage>().ClickCreateNew();
-            //else if (buttonName == "create")
-            //    CurrentPage.As<CreateEmployeePage>().ClickCreateButton();
             else if (buttonName == "new project")
                 CurrentPage.As<ProjectPage>().ClickNewProject();
             else if (buttonName == "submitProject")
             {
                 CurrentPage.As<ProjectPage>().ClickSubmitButton();
             }
+            else if (buttonName == "new subproject")
+            {
+                CurrentPage.As<ProjectPage>().ClickNewSubProject();
+            }
+
+            else if (buttonName == "submitSubProject")
+            {
+                CurrentPage.As<ProjectPage>().ClickSubProjectButton();
+            }
+
         }
     }
 }

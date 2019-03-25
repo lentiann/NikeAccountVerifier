@@ -15,9 +15,11 @@ Scenario: CheckCreationOfProjectAndSubProject
 		| Testproject |
 	Then I click submitProject button
 	Then I select last element in ProjectList
+	Then I click new subproject button
 	Then I enter SubProjectName and test
 		| SubProjectName |
 		| TestSubProject |
+	Then I click submitSubProject button
 	Then I select last element in SubProjectList
 	Then click submitProject button
 	Then click OkButton button
