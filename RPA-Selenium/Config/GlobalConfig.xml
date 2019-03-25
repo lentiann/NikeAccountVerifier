@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<RPASelenium>
+  <RunSettings>
+    <AUT>http://192.168.1.167/ui-rpa/#/login?returnUrl=%2Fworkflow-designer</AUT>
+    <Browser>Chrome</Browser>
+    <TestyType>SmokeTest</TestyType>
+    <IsLog>Y</IsLog>
+    <LogPath>C:\Logs\</LogPath>
+    <BuildName>DemoBuild</BuildName>
+    <IsReport>N</IsReport>
+    <UserName>RpaSelenium</UserName>
+    <Technology>Selenium</Technology>
+    <ApplicationDb>Data Source=QAPC-23KS;Initial Catalog=A;User Id=val_work;Password=123456</ApplicationDb>
+  </RunSettings>
+</RPASelenium>
