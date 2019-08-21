@@ -4,21 +4,24 @@ using RPAFramework.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace RPATest.CustomPage
 {
     public class NikePage
     {
-        readonly static string sApiKey = "6540b11f-a195-414b-b498-b4d70f126598";
-        readonly static string sClientId = "053d4422-361b-4535-b486-7242966bb091";
-        readonly static string sNumber = "003";
-        readonly static string sSID = "WEBSMS";
-        readonly static string sMessage = "Test Message";
+        readonly static string Token = "5e21f3b0dccb07d65cf2fb403da1a35e";
+        readonly static string Username = "lindi1995@hotmail.com";
+        readonly static string PID = "628";
+        readonly static string Number = "18280426117";
+        readonly static string GetNumbersRegEx = "(\\d+)";
 
-        static string parameters = $"?&apikey={sApiKey}&clientid={sClientId}&msisdn={sNumber}&sid={sSID}&msg={sMessage}&fl=0";
-        static string sURL = "https://my.forwardvaluesms.com/vendorsms/pushsms.aspx" + parameters;
-
+        static readonly string URL = "http://www.getsmscode.com/do.php";
+        static readonly string Parameters = $"?action=getsms&username={Username}&token={Token}&pid=628&mobile=86";
 
         public IWebElement Email => DriverContext.Driver.FindElement(By.Name("emailAddress"));
         public IWebElement Password => DriverContext.Driver.FindElement(By.Name("password"));
@@ -30,12 +33,18 @@ namespace RPATest.CustomPage
         public IWebElement CreateAccount => DriverContext.Driver.FindElement(By.CssSelector("input[value='CREATE ACCOUNT']"));
 
         public IWebElement DisaperLogin => DriverContext.Driver.FindElement(By.CssSelector("input[value*='PROCESSING']"));
+        #region [VERIFICATION]
+        public IWebElement PhoneNumber => DriverContext.Driver.FindElement(By.CssSelector("input[class*='phoneNumber'][type*='tel']"));
+        public IWebElement SendCode => DriverContext.Driver.FindElement(By.CssSelector("input[class*='sendCodeButton'][type*='button']"));
+        public IWebElement Code => DriverContext.Driver.FindElement(By.CssSelector("input[class*='code'][type*='number']")); 
+        public IWebElement MobileJoinContinue => DriverContext.Driver.FindElement(By.CssSelector("div[class*='mobileJoinContinue'] > input"));
+        public IWebElement Join => DriverContext.Driver.FindElement(By.CssSelector("div[class*='mobileLoginJoinLink'] > a"));
+        public int MaxNumbersOfRetries = 10;
+        #endregion
 
-        public string Url = "https://www.nike.com/nl/en/";
+        public string Url = "https://www.nike.com/cn";
 
         public IWebElement SignUp => DriverContext.Driver.FindElement(By.CssSelector("button[data-type='click_navJoinLogin']"));
-
-        public IWebElement JoinNow => DriverContext.Driver.FindElement(By.XPath("//a[contains(text(),'Join now.')]"));
         public IWebElement CloseX => DriverContext.Driver.FindElement(By.CssSelector("nav[data-hfjs='LanguageMenu'] > button"));
         public IWebElement AcceptCookies => DriverContext.Driver.FindElement(By.XPath("//div[contains(@class, 'hf-modal-view is-active')]//button[contains(@class,'nav-btn-accent')]"));
         public IWebElement MyAccount => DriverContext.Driver.FindElement(By.Id("MyAccountLink"));
@@ -45,12 +54,59 @@ namespace RPATest.CustomPage
                                                         .Where(x => x.Text.ToLower() == "log out")
                                                         .FirstOrDefault();
 
+        public async Task<string> GetCodeFromSMS(string number)
+        {
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(URL)
+            };
+
+            string _response = string.Empty;
+            // Add an Accept header for JSON format.
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/xml"));
+
+            // List data response.
+            HttpResponseMessage response = client.GetAsync(Parameters+number).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            string response_text = await response.Content.ReadAsStringAsync();
+
+            _response = response.IsSuccessStatusCode ? Regex.Match(response_text, GetNumbersRegEx).Value : response_text.Split('|').LastOrDefault();
+
+            //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+            client.Dispose();
+
+            return _response;
+        }
+
+        public NikePage clickMobileJoin()
+        {
+            MobileJoinContinue.Click();
+            return this;
+        }
+
+        public NikePage setPhoneNumber()
+        {
+            PhoneNumber.SendKeys(Number);
+            return this;
+        }
+
+        public NikePage setCode(string code)
+        {
+            Code.SendKeys(code);
+            return this;
+        }
+
+        public NikePage clickSendButton()
+        {
+            SendCode.Click();
+            return this;
+        }
+
         public void Navigate()
         {
-            AcceptCookies.Click();
+            //AcceptCookies.Click();
             CloseX.Click();
             SignUp.Click();
-            JoinNow.Click();
+            Join.Click();
         }
 
         public NikePage setEmail(string email)
@@ -114,7 +170,7 @@ namespace RPATest.CustomPage
         public void Login()
         {
             SignUp.Click();
-            JoinNow.Click();
+            Join.Click();
         }
     }
 }

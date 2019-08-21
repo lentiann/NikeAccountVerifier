@@ -29,7 +29,7 @@ namespace RPAFramework.Base
 
         }
 
-        private void OpenBrowser(BrowserType browserType = BrowserType.Chrome)
+        private void OpenBrowser(BrowserType browserType = BrowserType.FireFox)
         {
             switch (browserType)
             {
@@ -38,7 +38,7 @@ namespace RPAFramework.Base
                     DriverContext.Browser = new Browser(DriverContext.Driver);
                     break;
                 case BrowserType.FireFox:
-                    DriverContext.Driver = new FirefoxDriver();
+                    DriverContext.Driver = new FirefoxDriver(@"C:\");
                     DriverContext.Browser = new Browser(DriverContext.Driver);
                     break;
                 case BrowserType.Chrome:

@@ -6,4 +6,6 @@
 @mytag
 Scenario: acc register
 	Given I have entered account details
-	Then I fill register form
+	Then I Verify Account
+	#Then I fill register form
+	
