@@ -8,7 +8,7 @@ namespace RPATest.Hooks
     [Binding]
     public class HookInitialize : TestInitializeHook
     {
-        public HookInitialize() : base(BrowserType.Chrome)
+        public HookInitialize() : base(BrowserType.FireFox)
         {
             InitializeSettings();
             Settings.ApplicationCon = Settings.ApplicationCon.DBConnect(Settings.AppConnectionString);
