@@ -42,7 +42,7 @@ namespace RPAFramework.Base
                     DriverContext.Browser = new Browser(DriverContext.Driver);
                     break;
                 case BrowserType.Chrome:
-                    DriverContext.Driver = new ChromeDriver(@"C:\webdrivers");
+                    DriverContext.Driver = new ChromeDriver(@"C:\WebdriverJava");
                     DriverContext.Browser = new Browser(DriverContext.Driver);
                     break;
             }

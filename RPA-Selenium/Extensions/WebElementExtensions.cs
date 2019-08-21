@@ -67,9 +67,13 @@ namespace RPAFramework.Extensions
             }
         }
 
-        public static void MaximizeBrowser(this IWebElement element)
+        //public static void MaximizeBrowser(this IWebElement element)
+        //{
+        //    element.MaximizeBrowser();
+        //}
+        public static void MaximizeBrowser()
         {
-            element.MaximizeBrowser();
+            DriverContext.Driver.Manage().Window.Maximize();
         }
     }
 }
